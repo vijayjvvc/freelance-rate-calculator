@@ -97,6 +97,28 @@ export function ResultsCard({ result }: ResultsCardProps) {
                   )}
                 </li>
               ))}
+              {allBenefits.map((unbenefit, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-muted flex-shrink-0" />
+                  <div className="flex-grow">
+                    <span className="font-medium text-foreground">
+                      {unbenefit.text}
+                    </span>
+                  </div>
+                  {unbenefit.description && (
+                    <Tooltip delayDuration={0}>
+                      <TooltipTrigger asChild>
+                         <button className="ml-2 flex-shrink-0">
+                           <Info className="h-4 w-4 text-muted-foreground hover:text-accent" />
+                         </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs">
+                        <p>{unbenefit.description}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </li>
+              ))}
             </ul>
         </TooltipProvider>
 

@@ -78,6 +78,13 @@
         "SAME_DAY_TURNAROUND",
         "SOURCE_CODE_OWNERSHIP",
         "RAPID_PROTOTYPING"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     },
     {
@@ -94,6 +101,13 @@
         "RAPID_PROTOTYPING",
         "AGILE_SPRINTS",
         "SOURCE_CODE_OWNERSHIP"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     },
     {
@@ -111,6 +125,13 @@
         "AGILE_SPRINTS",
         "UI_UPDATES_LIMITED",
         "SOURCE_CODE_OWNERSHIP"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     },
     {
@@ -129,6 +150,13 @@
         "UI_UPDATES_LARGE",
         "SHORT_NOTICE_MEETINGS",
         "SOURCE_CODE_OWNERSHIP"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     },
     {
@@ -148,6 +176,13 @@
         "SHORT_NOTICE_MEETINGS",
         "PRIORITY_SUPPORT",
         "SOURCE_CODE_OWNERSHIP"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     },
     {
@@ -168,6 +203,13 @@
         "PRIORITY_SUPPORT",
         "DETAILED_REPORTS",
         "SOURCE_CODE_OWNERSHIP"
+      ],
+      "unbenefits": [
+        "PREMIUM_SUPPORT",
+        "UNLIMITED_REVISIONS",
+        "SAME_DAY_TURNAROUND",
+        "SOURCE_CODE_OWNERSHIP",
+        "RAPID_PROTOTYPING"
       ]
     }
   ]
