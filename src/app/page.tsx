@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { FreelanceRateForm, type FormData } from "@/components/freelance-rate-form";
 import { ResultsCard } from "@/components/results-card";
-import { tiers, type Tier, type Benefit, referralCodes } from "@/lib/data";
+import config from "@/lib/freelance-config.json";
+import type { Tier, Benefit, ReferralCodes } from "@/lib/types";
 
 export type CalculationResult = {
   tier: Tier;
@@ -24,6 +25,24 @@ export default function Home() {
   const [isCalculating, setIsCalculating] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
+  // In a real library, this data would be fetched from your API
+  const { tiers, allBenefits, referralCodes } = config as {
+    tiers: Tier[];
+    allBenefits: { [key: string]: Omit<Benefit, 'included'> };
+    referralCodes: ReferralCodes;
+  };
+
+  const getTierBenefits = (tier: Tier): Benefit[] => {
+    return tier.benefits.map(key => ({
+      ...allBenefits[key],
+      included: true
+    })).sort((a, b) => {
+      if (a.premium && !b.premium) return -1;
+      if (!a.premium && b.premium) return 1;
+      return a.text.localeCompare(b.text);
+    });
+  };
+
   const handleCalculate = (data: FormData) => {
     setIsCalculating(true);
     setResult(null); // Clear previous result
@@ -38,7 +57,7 @@ export default function Home() {
     if (data.refId) {
       const match = data.refId.match(refCodeRegex);
       if (match) {
-        const codePart = match[1].toUpperCase();
+        const codePart = match[1].toUpperCase() as keyof ReferralCodes;
         const hoursPart = match[2];
 
         if (referralCodes[codePart]) {
@@ -49,10 +68,8 @@ export default function Home() {
 
         if (hoursPart) {
           dailyCustomHours = parseInt(hoursPart, 10);
-          // Round days to the nearest multiple of 30
           let roundedDays = Math.round(data.days / 30) * 30;
           if (roundedDays === 0) roundedDays = 30;
-          // Clamp the rounded days within the tier's min/max
           finalDays = Math.max(selectedTier.minDays, Math.min(roundedDays, selectedTier.maxDays));
         }
       }
@@ -69,7 +86,7 @@ export default function Home() {
         days: finalDays,
         totalHours,
         totalCost,
-        allBenefits: selectedTier.benefits.filter(b => b.included),
+        allBenefits: getTierBenefits(selectedTier),
         refId: data.refId,
         discountApplied,
         dailyHours: dailyCustomHours,
@@ -100,7 +117,11 @@ export default function Home() {
       </div>
 
       <div className="mt-12">
-        <FreelanceRateForm onCalculate={handleCalculate} isCalculating={isCalculating} />
+        <FreelanceRateForm 
+          tiers={tiers}
+          onCalculate={handleCalculate} 
+          isCalculating={isCalculating} 
+        />
       </div>
 
       <div className="mt-12" ref={resultsRef}>

@@ -25,11 +25,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { tiers } from "@/lib/data";
+import type { Tier } from "@/lib/types";
 
 const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
 
-const formSchema = z.object({
+// We need a function to create the schema dynamically based on the tiers prop
+const createFormSchema = (tiers: Tier[]) => z.object({
   tierId: z.string({ required_error: "Please select a project duration." }),
   days: z.coerce.number().min(1, "Days must be at least 1."),
   refId: z.string().optional(),
@@ -37,6 +38,8 @@ const formSchema = z.object({
   (data) => {
     const tier = tiers.find((t) => t.id === data.tierId);
     if (!tier) return false;
+    // When a custom hour code is present, we only validate the range, not rounding.
+    // The rounding happens in the calculation logic.
     return data.days >= tier.minDays && data.days <= tier.maxDays;
   },
   {
@@ -54,15 +57,19 @@ const formSchema = z.object({
     }
 );
 
-export type FormData = z.infer<typeof formSchema>;
+export type FormData = z.infer<ReturnType<typeof createFormSchema>>;
 
 interface FreelanceRateFormProps {
+  tiers: Tier[];
   onCalculate: (data: FormData) => void;
   isCalculating: boolean;
 }
 
-export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateFormProps) {
+export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: FreelanceRateFormProps) {
   const [selectedTierId, setSelectedTierId] = useState<string | undefined>();
+  
+  // Create the schema dynamically
+  const formSchema = createFormSchema(tiers);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
