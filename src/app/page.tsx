@@ -49,8 +49,8 @@ export default function Home() {
       ...allBenefits[key],
       included: true
     })).sort((a, b) => {
-      if (a.premium && !b.premium) return -1;
-      if (!a.premium && b.premium) return 1;
+      // if (a.premium && !b.premium) return -1;
+      // if (!a.premium && b.premium) return 1;
       return a.text.localeCompare(b.text);
     });
   };
