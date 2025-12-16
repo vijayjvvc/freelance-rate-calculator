@@ -44,7 +44,6 @@ export default function Home() {
     });
   };
   const getTierUnbenefits = (tier: Tier): Benefit[] => {
-    console.log(tier.unbenefits.toString())
     return tier.unbenefits.map(key => ({
       ...allBenefits[key],
       included: true
