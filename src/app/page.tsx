@@ -14,7 +14,10 @@ export type CalculationResult = {
   allBenefits: Benefit[];
   refId?: string;
   discountApplied?: number;
+  dailyHours?: number;
 };
+
+const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
 
 export default function Home() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -28,27 +31,45 @@ export default function Home() {
 
     let hourlyRate = selectedTier.hourlyRate;
     let discountApplied: number | undefined = undefined;
+    let dailyCustomHours: number | undefined = undefined;
+    let finalDays = data.days;
 
-    if (data.refId && referralCodes[data.refId.toUpperCase()]) {
-      const discount = referralCodes[data.refId.toUpperCase()];
-      discountApplied = discount;
-      hourlyRate = hourlyRate * (1 - discount / 100);
+    if (data.refId) {
+      const match = data.refId.match(refCodeRegex);
+      if (match) {
+        const codePart = match[1].toUpperCase();
+        const hoursPart = match[2];
+
+        if (referralCodes[codePart]) {
+          const discount = referralCodes[codePart];
+          discountApplied = discount;
+          hourlyRate = hourlyRate * (1 - discount / 100);
+        }
+
+        if (hoursPart) {
+          dailyCustomHours = parseInt(hoursPart, 10);
+          // Round days to the nearest multiple of 30
+          finalDays = Math.round(data.days / 30) * 30;
+          if (finalDays === 0) finalDays = 30;
+        }
+      }
     }
 
-    const dailyHours = (selectedTier.dailyHours.min + selectedTier.dailyHours.max) / 2;
-    const totalHours = data.days * dailyHours;
+    const dailyHours = dailyCustomHours || (selectedTier.dailyHours.min + selectedTier.dailyHours.max) / 2;
+    const totalHours = finalDays * dailyHours;
     const totalCost = totalHours * hourlyRate;
 
     // Simulate calculation time
     setTimeout(() => {
       setResult({
         tier: selectedTier,
-        days: data.days,
+        days: finalDays,
         totalHours,
         totalCost,
         allBenefits: selectedTier.benefits,
         refId: data.refId,
         discountApplied,
+        dailyHours: dailyCustomHours,
       });
       setIsCalculating(false);
     }, 500);

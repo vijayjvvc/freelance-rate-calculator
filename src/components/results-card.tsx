@@ -14,7 +14,7 @@ interface ResultsCardProps {
 }
 
 export function ResultsCard({ result }: ResultsCardProps) {
-  const { tier, days, totalHours, totalCost, allBenefits, discountApplied } = result;
+  const { tier, days, totalHours, totalCost, allBenefits, discountApplied, dailyHours } = result;
 
   const formattedCost = new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -28,11 +28,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
     window.open(whatsappUrl, '_blank');
   };
   
-  const sortedBenefits = [...allBenefits].sort((a, b) => {
-    if (a.included && !b.included) return -1;
-    if (!a.included && b.included) return 1;
-    return 0;
-  });
+  const includedBenefits = allBenefits.filter(b => b.included);
 
   return (
     <Card className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/10 p-4 sm:p-8 shadow-2xl shadow-primary/10 backdrop-blur-lg animate-in fade-in-50 zoom-in-95 duration-500">
@@ -56,7 +52,8 @@ export function ResultsCard({ result }: ResultsCardProps) {
           <p className="text-muted-foreground text-sm">Estimated Total Cost</p>
           <p className="text-5xl font-bold text-primary my-2">{formattedCost}</p>
           <p className="text-muted-foreground">
-            Approx. {totalHours.toLocaleString()} hours @ ₹{tier.hourlyRate}/hr
+            {dailyHours ? 'Total' : 'Approx.'} {totalHours.toLocaleString()} hours @ ₹{tier.hourlyRate}/hr
+            {dailyHours && ` (${dailyHours} hrs/day)`}
           </p>
         </div>
 
@@ -66,15 +63,11 @@ export function ResultsCard({ result }: ResultsCardProps) {
         
         <TooltipProvider>
             <ul className="space-y-4">
-              {sortedBenefits.map((benefit, index) => (
+              {includedBenefits.map((benefit, index) => (
                 <li key={index} className="flex items-start">
-                  {benefit.included ? (
-                    <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-primary flex-shrink-0" />
-                  ) : (
-                    <XCircle className="h-5 w-5 mr-3 mt-0.5 text-muted-foreground/50 flex-shrink-0" />
-                  )}
+                  <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-primary flex-shrink-0" />
                   <div className="flex-grow">
-                    <span className={benefit.included ? "font-medium text-foreground" : "text-muted-foreground/70"}>
+                    <span className="font-medium text-foreground">
                       {benefit.text}
                     </span>
                   </div>

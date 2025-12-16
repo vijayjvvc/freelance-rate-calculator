@@ -27,12 +27,20 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { tiers, referralCodes } from "@/lib/data";
 
+const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
+
 const formSchema = z.object({
   tierId: z.string({ required_error: "Please select a project duration." }),
   days: z.coerce.number().min(1, "Days must be at least 1."),
   refId: z.string().optional(),
 }).refine(
   (data) => {
+    if (data.refId && refCodeRegex.test(data.refId)) {
+        const match = data.refId.match(refCodeRegex);
+        if (match && match[2]) {
+            return true; // When custom hours are set, min/max days don't apply
+        }
+    }
     const tier = tiers.find((t) => t.id === data.tierId);
     if (!tier) return false;
     return data.days >= tier.minDays && data.days <= tier.maxDays;
@@ -44,10 +52,10 @@ const formSchema = z.object({
 ).refine(
     (data) => {
         if (!data.refId) return true;
-        return Object.keys(referralCodes).includes(data.refId.toUpperCase());
+        return refCodeRegex.test(data.refId);
     },
     {
-        message: "Invalid referral code.",
+        message: "Invalid referral code format.",
         path: ["refId"],
     }
 );
@@ -72,15 +80,19 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
   });
 
   const selectedTier = tiers.find((t) => t.id === selectedTierId);
-  
+  const refIdValue = form.watch("refId");
+  const hasCustomHours = refIdValue ? refCodeRegex.test(refIdValue) && !!refIdValue.match(refCodeRegex)?.[2] : false;
+
   const handleTierChange = (tierId: string) => {
     const tier = tiers.find((t) => t.id === tierId);
     if (tier) {
       setSelectedTierId(tierId);
       form.setValue("tierId", tierId);
-      const currentDays = form.getValues("days");
-      if (currentDays < tier.minDays || currentDays > tier.maxDays) {
-         form.setValue("days", tier.minDays);
+      if (!hasCustomHours) {
+        const currentDays = form.getValues("days");
+        if (currentDays < tier.minDays || currentDays > tier.maxDays) {
+           form.setValue("days", tier.minDays);
+        }
       }
       form.trigger("days");
     }
@@ -128,10 +140,15 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
                     <FormControl>
                       <Input type="number" placeholder="e.g., 5" {...field} disabled={!selectedTier} />
                     </FormControl>
-                    {selectedTier && (
+                    {selectedTier && !hasCustomHours && (
                       <FormDescription>
                         Enter a value between {selectedTier.minDays} and {selectedTier.maxDays}.
                       </FormDescription>
+                    )}
+                    {hasCustomHours && (
+                        <FormDescription>
+                            Enter days in multiples of 30 (e.g., 30, 60, 90).
+                        </FormDescription>
                     )}
                     <FormMessage />
                   </FormItem>
@@ -147,7 +164,7 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., JV02" {...field} className="pl-10" />
+                            <Input placeholder="e.g., JV02 or JV02-4" {...field} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />

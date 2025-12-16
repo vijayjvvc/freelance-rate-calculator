@@ -24,6 +24,14 @@ export const referralCodes: { [key: string]: number } = {
 };
 
 const allBenefits = {
+  PREMIUM_SUPPORT: {
+    text: "Premium 24/7 Priority Support",
+    description: "Direct line to me for any urgent needs, with top priority, day or night.",
+  },
+  UNLIMITED_REVISIONS: {
+    text: "Unlimited Revisions during Development",
+    description: "Unlimited feedback and revision requests during the active development phase.",
+  },
   DEDICATED_SUPPORT: {
     text: "Dedicated 24/7 Support",
     description: "Direct line to me for any urgent needs, day or night.",
@@ -85,7 +93,7 @@ export const tiers: Tier[] = [
     maxDays: 6,
     hourlyRate: 1500,
     dailyHours: { min: 5, max: 8 },
-    benefits: getBenefits(["DEDICATED_SUPPORT", "SAME_DAY_TURNAROUND", "SOURCE_CODE_OWNERSHIP", "RAPID_PROTOTYPING"]),
+    benefits: getBenefits(["PREMIUM_SUPPORT", "UNLIMITED_REVISIONS", "SAME_DAY_TURNAROUND", "SOURCE_CODE_OWNERSHIP", "RAPID_PROTOTYPING"]),
   },
   {
     id: "tier-2",
@@ -94,7 +102,7 @@ export const tiers: Tier[] = [
     maxDays: 14,
     hourlyRate: 1200,
     dailyHours: { min: 5, max: 8 },
-    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS"]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "SOURCE_CODE_OWNERSHIP"]),
   },
   {
     id: "tier-3",
@@ -103,7 +111,7 @@ export const tiers: Tier[] = [
     maxDays: 30,
     hourlyRate: 1160,
     dailyHours: { min: 6, max: 8 },
-    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LIMITED"]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LIMITED", "SOURCE_CODE_OWNERSHIP"]),
   },
   {
     id: "tier-4",
@@ -112,7 +120,7 @@ export const tiers: Tier[] = [
     maxDays: 120,
     hourlyRate: 1130,
     dailyHours: { min: 6, max: 8 },
-    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS"]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS", "SOURCE_CODE_OWNERSHIP"]),
   },
   {
     id: "tier-5",
@@ -121,7 +129,7 @@ export const tiers: Tier[] = [
     maxDays: 180,
     hourlyRate: 1100,
     dailyHours: { min: 6, max: 8 },
-    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS", "PRIORITY_SUPPORT"]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS", "PRIORITY_SUPPORT", "SOURCE_CODE_OWNERSHIP"]),
   },
   {
     id: "tier-6",
@@ -130,6 +138,6 @@ export const tiers: Tier[] = [
     maxDays: 365,
     hourlyRate: 950,
     dailyHours: { min: 6, max: 8 },
-    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS", "PRIORITY_SUPPORT", "DETAILED_REPORTS"]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS", "UI_UPDATES_LARGE", "SHORT_NOTICE_MEETINGS", "PRIORITY_SUPPORT", "DETAILED_REPORTS", "SOURCE_CODE_OWNERSHIP"]),
   },
 ];
