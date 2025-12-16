@@ -3,7 +3,7 @@
 import type { CalculationResult } from "@/app/page.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Info, XCircle, Gift } from "lucide-react";
+import { CheckCircle2, Info, Gift } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import { WhatsAppIcon } from "./icons/whatsapp-icon";
@@ -27,8 +27,6 @@ export function ResultsCard({ result }: ResultsCardProps) {
     const whatsappUrl = `https://wa.me/+917015954990?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
-  
-  const includedBenefits = allBenefits.filter(b => b.included);
 
   return (
     <Card className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/10 p-4 sm:p-8 shadow-2xl shadow-primary/10 backdrop-blur-lg animate-in fade-in-50 zoom-in-95 duration-500">
@@ -52,7 +50,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
           <p className="text-muted-foreground text-sm">Estimated Total Cost</p>
           <p className="text-5xl font-bold text-primary my-2">{formattedCost}</p>
           <p className="text-muted-foreground">
-            {dailyHours ? 'Total' : 'Approx.'} {totalHours.toLocaleString()} hours @ ₹{tier.hourlyRate}/hr
+            {dailyHours ? 'Total' : 'Approx.'} {totalHours.toLocaleString()} hours @ ₹{tier.hourlyRate.toFixed(2)}/hr
             {dailyHours && ` (${dailyHours} hrs/day)`}
           </p>
         </div>
@@ -63,7 +61,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
         
         <TooltipProvider>
             <ul className="space-y-4">
-              {includedBenefits.map((benefit, index) => (
+              {allBenefits.map((benefit, index) => (
                 <li key={index} className="flex items-start">
                   <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-primary flex-shrink-0" />
                   <div className="flex-grow">

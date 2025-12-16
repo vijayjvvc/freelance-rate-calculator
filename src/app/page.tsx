@@ -26,6 +26,7 @@ export default function Home() {
 
   const handleCalculate = (data: FormData) => {
     setIsCalculating(true);
+    setResult(null); // Clear previous result
     const selectedTier = tiers.find((t) => t.id === data.tierId);
     if (!selectedTier) return;
 
@@ -49,8 +50,10 @@ export default function Home() {
         if (hoursPart) {
           dailyCustomHours = parseInt(hoursPart, 10);
           // Round days to the nearest multiple of 30
-          finalDays = Math.round(data.days / 30) * 30;
-          if (finalDays === 0) finalDays = 30;
+          let roundedDays = Math.round(data.days / 30) * 30;
+          if (roundedDays === 0) roundedDays = 30;
+          // Clamp the rounded days within the tier's min/max
+          finalDays = Math.max(selectedTier.minDays, Math.min(roundedDays, selectedTier.maxDays));
         }
       }
     }
@@ -66,7 +69,7 @@ export default function Home() {
         days: finalDays,
         totalHours,
         totalCost,
-        allBenefits: selectedTier.benefits,
+        allBenefits: selectedTier.benefits.filter(b => b.included),
         refId: data.refId,
         discountApplied,
         dailyHours: dailyCustomHours,
@@ -101,6 +104,7 @@ export default function Home() {
       </div>
 
       <div className="mt-12" ref={resultsRef}>
+        {isCalculating && <div className="h-96" />}
         {result && <ResultsCard result={result} />}
       </div>
     </main>

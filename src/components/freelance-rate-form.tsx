@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { tiers, referralCodes } from "@/lib/data";
+import { tiers } from "@/lib/data";
 
 const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
 
@@ -35,18 +35,12 @@ const formSchema = z.object({
   refId: z.string().optional(),
 }).refine(
   (data) => {
-    if (data.refId && refCodeRegex.test(data.refId)) {
-        const match = data.refId.match(refCodeRegex);
-        if (match && match[2]) {
-            return true; // When custom hours are set, min/max days don't apply
-        }
-    }
     const tier = tiers.find((t) => t.id === data.tierId);
     if (!tier) return false;
     return data.days >= tier.minDays && data.days <= tier.maxDays;
   },
   {
-    message: "Days must be within the selected duration range.",
+    message: "Days must be within the selected duration's range.",
     path: ["days"],
   }
 ).refine(
@@ -88,11 +82,9 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
     if (tier) {
       setSelectedTierId(tierId);
       form.setValue("tierId", tierId);
-      if (!hasCustomHours) {
-        const currentDays = form.getValues("days");
-        if (currentDays < tier.minDays || currentDays > tier.maxDays) {
-           form.setValue("days", tier.minDays);
-        }
+      const currentDays = form.getValues("days");
+      if (currentDays < tier.minDays || currentDays > tier.maxDays) {
+         form.setValue("days", tier.minDays);
       }
       form.trigger("days");
     }
@@ -140,15 +132,11 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
                     <FormControl>
                       <Input type="number" placeholder="e.g., 5" {...field} disabled={!selectedTier} />
                     </FormControl>
-                    {selectedTier && !hasCustomHours && (
+                    {selectedTier && (
                       <FormDescription>
                         Enter a value between {selectedTier.minDays} and {selectedTier.maxDays}.
+                        {hasCustomHours && " Days will be rounded to the nearest month (30 days)."}
                       </FormDescription>
-                    )}
-                    {hasCustomHours && (
-                        <FormDescription>
-                            Enter days in multiples of 30 (e.g., 30, 60, 90).
-                        </FormDescription>
                     )}
                     <FormMessage />
                   </FormItem>
