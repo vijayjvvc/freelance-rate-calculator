@@ -14,7 +14,7 @@ interface ResultsCardProps {
 }
 
 export function ResultsCard({ result }: ResultsCardProps) {
-  const { tier, days, totalHours, totalCost, allBenefits, discountApplied, dailyHours } = result;
+  const { tier, days, totalHours, totalCost, allBenefits, unbenefits, discountApplied, dailyHours } = result;
 
   const formattedCost = new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -97,7 +97,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
                   )}
                 </li>
               ))}
-              {allBenefits.map((unbenefit, index) => (
+              {unbenefits.map((unbenefit, index) => (
                 <li key={index} className="flex items-start">
                   <CircleX className="h-5 w-5 mr-3 mt-0.5 text-muted flex-shrink-0" />
                   <div className="flex-grow">

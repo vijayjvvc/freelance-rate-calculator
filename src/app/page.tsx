@@ -48,11 +48,7 @@ export default function Home() {
     return tier.unbenefits.map(key => ({
       ...allBenefits[key],
       included: true
-    })).sort((a, b) => {
-      // if (a.premium && !b.premium) return -1;
-      // if (!a.premium && b.premium) return 1;
-      return a.text.localeCompare(b.text);
-    });
+    }));
   };
 
   const handleCalculate = (data: FormData) => {
