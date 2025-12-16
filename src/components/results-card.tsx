@@ -23,14 +23,28 @@ export function ResultsCard({ result }: ResultsCardProps) {
   }).format(totalCost);
 
   const handleShare = () => {
-    const message = `Hi! I'm interested in hiring you for a project. I've selected the '${tier.label}' plan for ${days} days. The estimated cost is ${formattedCost}. Let's discuss this further.`;
+    let message = `Hi! I'm interested in hiring you for a project.\n\nI've selected the '${tier.label}' plan for ${days} days.`;
+    
+    if (dailyHours) {
+        message += `\nThis includes a custom commitment of ${dailyHours} hours/day.`
+    }
+
+    if (discountApplied) {
+        message += `\nA referral discount of ${discountApplied}% has been applied.`
+    }
+
+    message += `\n\nThe estimated total cost is ${formattedCost} for ${totalHours} hours.`;
+    message += `\n\nLet's discuss this further.`;
+
     const whatsappUrl = `https://wa.me/+917015954990?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   return (
     <Card className="relative overflow-hidden rounded-2xl border border-primary/20 bg-card/10 p-4 sm:p-8 shadow-2xl shadow-primary/10 backdrop-blur-lg animate-in fade-in-50 zoom-in-95 duration-500">
-      <Confetti />
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-50">
+        <Confetti />
+      </div>
       <CardHeader className="text-center">
         <CardTitle className="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-background to-foreground">
           Your Estimated Plan
