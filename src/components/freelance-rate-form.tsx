@@ -4,7 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, TicketPercent } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,11 +25,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { tiers } from "@/lib/data";
+import { tiers, referralCodes } from "@/lib/data";
 
 const formSchema = z.object({
   tierId: z.string({ required_error: "Please select a project duration." }),
   days: z.coerce.number().min(1, "Days must be at least 1."),
+  refId: z.string().optional(),
 }).refine(
   (data) => {
     const tier = tiers.find((t) => t.id === data.tierId);
@@ -40,6 +41,15 @@ const formSchema = z.object({
     message: "Days must be within the selected duration range.",
     path: ["days"],
   }
+).refine(
+    (data) => {
+        if (!data.refId) return true;
+        return Object.keys(referralCodes).includes(data.refId.toUpperCase());
+    },
+    {
+        message: "Invalid referral code.",
+        path: ["refId"],
+    }
 );
 
 export type FormData = z.infer<typeof formSchema>;
@@ -57,6 +67,7 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
     defaultValues: {
       tierId: undefined,
       days: 1,
+      refId: "",
     },
   });
 
@@ -67,7 +78,6 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
     if (tier) {
       setSelectedTierId(tierId);
       form.setValue("tierId", tierId);
-      // Set days to the minimum of the new tier to help the user
       const currentDays = form.getValues("days");
       if (currentDays < tier.minDays || currentDays > tier.maxDays) {
          form.setValue("days", tier.minDays);
@@ -128,6 +138,22 @@ export function FreelanceRateForm({ onCalculate, isCalculating }: FreelanceRateF
                 )}
               />
             </div>
+             <FormField
+                control={form.control}
+                name="refId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Referral Code (Optional)</FormLabel>
+                    <FormControl>
+                        <div className="relative">
+                            <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                            <Input placeholder="e.g., JV02" {...field} className="pl-10" />
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
             <Button type="submit" className="w-full text-lg py-6" size="lg" disabled={isCalculating}>
               {isCalculating ? (

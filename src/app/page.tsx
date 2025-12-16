@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { FreelanceRateForm, type FormData } from "@/components/freelance-rate-form";
 import { ResultsCard } from "@/components/results-card";
-import { tiers, type Tier, type Benefit } from "@/lib/data";
+import { tiers, type Tier, type Benefit, referralCodes } from "@/lib/data";
 
 export type CalculationResult = {
   tier: Tier;
@@ -12,6 +12,8 @@ export type CalculationResult = {
   totalHours: number;
   totalCost: number;
   allBenefits: Benefit[];
+  refId?: string;
+  discountApplied?: number;
 };
 
 export default function Home() {
@@ -24,9 +26,18 @@ export default function Home() {
     const selectedTier = tiers.find((t) => t.id === data.tierId);
     if (!selectedTier) return;
 
+    let hourlyRate = selectedTier.hourlyRate;
+    let discountApplied: number | undefined = undefined;
+
+    if (data.refId && referralCodes[data.refId.toUpperCase()]) {
+      const discount = referralCodes[data.refId.toUpperCase()];
+      discountApplied = discount;
+      hourlyRate = hourlyRate * (1 - discount / 100);
+    }
+
     const dailyHours = (selectedTier.dailyHours.min + selectedTier.dailyHours.max) / 2;
     const totalHours = data.days * dailyHours;
-    const totalCost = totalHours * selectedTier.hourlyRate;
+    const totalCost = totalHours * hourlyRate;
 
     // Simulate calculation time
     setTimeout(() => {
@@ -36,6 +47,8 @@ export default function Home() {
         totalHours,
         totalCost,
         allBenefits: selectedTier.benefits,
+        refId: data.refId,
+        discountApplied,
       });
       setIsCalculating(false);
     }, 500);
