@@ -18,6 +18,14 @@ export type Tier = {
 };
 
 const allBenefits = {
+  RAPID_PROTOTYPING: {
+    text: "Rapid Prototyping",
+    description: "Quick turnaround on initial concepts and interactive prototypes.",
+  },
+  AGILE_SPRINTS: {
+    text: "Agile Development Sprints",
+    description: "The project will be developed in short, iterative cycles for faster feedback.",
+  },
   UI_UPDATES_LIMITED: { 
     text: "Limited UI/Design Updates", 
     description: "Minor tweaks and updates to the user interface are included.",
@@ -51,7 +59,6 @@ const getBenefits = (includedBenefits: (keyof typeof allBenefits)[]) => {
   }));
 };
 
-
 export const tiers: Tier[] = [
   {
     id: "tier-1",
@@ -60,7 +67,7 @@ export const tiers: Tier[] = [
     maxDays: 6,
     hourlyRate: 1500,
     dailyHours: { min: 5, max: 8 },
-    benefits: getBenefits([]),
+    benefits: getBenefits(["RAPID_PROTOTYPING", "AGILE_SPRINTS"]),
   },
   {
     id: "tier-2",

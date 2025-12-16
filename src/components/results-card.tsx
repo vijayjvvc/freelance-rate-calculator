@@ -26,6 +26,12 @@ export function ResultsCard({ result }: ResultsCardProps) {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
+  
+  const sortedBenefits = [...allBenefits].sort((a, b) => {
+    if (a.included && !b.included) return -1;
+    if (!a.included && b.included) return 1;
+    return 0;
+  });
 
   return (
     <Card className="rounded-2xl border border-primary/20 bg-card/10 p-4 sm:p-8 shadow-2xl shadow-primary/10 backdrop-blur-lg animate-in fade-in-50 zoom-in-95 duration-500">
@@ -52,7 +58,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
         
         <TooltipProvider>
             <ul className="space-y-4">
-              {allBenefits.map((benefit, index) => (
+              {sortedBenefits.map((benefit, index) => (
                 <li key={index} className="flex items-start">
                   {benefit.included ? (
                     <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-primary flex-shrink-0" />
@@ -65,9 +71,9 @@ export function ResultsCard({ result }: ResultsCardProps) {
                     </span>
                   </div>
                   {benefit.description && (
-                    <Tooltip delayDuration={100}>
+                    <Tooltip delayDuration={0}>
                       <TooltipTrigger asChild>
-                         <button className="ml-2 flex-shrink-0">
+                         <button className="ml-2 flex-shrink-0" onClick={(e) => e.preventDefault()}>
                            <Info className="h-4 w-4 text-muted-foreground hover:text-accent" />
                          </button>
                       </TooltipTrigger>
