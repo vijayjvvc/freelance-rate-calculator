@@ -16,7 +16,7 @@ export type Tier = {
     max: number;
   };
   benefits: string[]; // Array of benefit keys
-  unbenefits: string[]; // Array of benefit keys
+  unbenefits: string[]; // Array of unbenefit keys
 };
 
 export type ReferralCodes = {
