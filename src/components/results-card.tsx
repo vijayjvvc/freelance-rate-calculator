@@ -23,7 +23,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
 
   const handleShare = () => {
     const message = `Hi! I'm interested in hiring you for a project. I've selected the '${tier.label}' plan for ${days} days. The estimated cost is ${formattedCost}. Let's discuss this further.`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/+917015954990?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
   
