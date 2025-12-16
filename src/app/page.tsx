@@ -13,6 +13,7 @@ export type CalculationResult = {
   totalHours: number;
   totalCost: number;
   allBenefits: Benefit[];
+  unbenefits: Benefit[];
   refId?: string;
   discountApplied?: number;
   dailyHours?: number;
@@ -34,6 +35,16 @@ export default function Home() {
 
   const getTierBenefits = (tier: Tier): Benefit[] => {
     return tier.benefits.map(key => ({
+      ...allBenefits[key],
+      included: true
+    })).sort((a, b) => {
+      if (a.premium && !b.premium) return -1;
+      if (!a.premium && b.premium) return 1;
+      return a.text.localeCompare(b.text);
+    });
+  };
+  const getTierUnbenefits = (tier: Tier): Benefit[] => {
+    return tier.unbenefits.map(key => ({
       ...allBenefits[key],
       included: true
     })).sort((a, b) => {
@@ -87,6 +98,7 @@ export default function Home() {
         totalHours,
         totalCost,
         allBenefits: getTierBenefits(selectedTier),
+        unbenefits: getTierUnbenefits(selectedTier),
         refId: data.refId,
         discountApplied,
         dailyHours: dailyCustomHours,
