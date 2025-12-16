@@ -42,7 +42,7 @@ export const Confetti = () => {
         styleSheet.innerText = `
             @keyframes fall {
                 0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-                100% { opacity: 1; transform: translateY(500vh) rotate(720deg); }
+                100% { opacity: 0; transform: translateY(500vh) rotate(720deg); }
             }
         `;
         document.head.appendChild(styleSheet);
