@@ -66,7 +66,7 @@ export default function Home() {
         <FreelanceRateForm onCalculate={handleCalculate} isCalculating={isCalculating} />
       </div>
 
-      <div className="mt-12 min-h-[400px]" ref={resultsRef}>
+      <div className="mt-12" ref={resultsRef}>
         {result && <ResultsCard result={result} />}
       </div>
     </main>
