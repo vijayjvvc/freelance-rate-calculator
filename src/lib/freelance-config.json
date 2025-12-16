@@ -74,16 +74,11 @@
       },
       "benefits": [
         "PREMIUM_SUPPORT",
-        "UNLIMITED_REVISIONS",
         "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
-        "RAPID_PROTOTYPING"
+        "SOURCE_CODE_OWNERSHIP"
       ],
       "unbenefits": [
-        "PREMIUM_SUPPORT",
         "UNLIMITED_REVISIONS",
-        "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
         "RAPID_PROTOTYPING"
       ]
     },
@@ -98,15 +93,14 @@
         "max": 8
       },
       "benefits": [
-        "RAPID_PROTOTYPING",
+        "PREMIUM_SUPPORT",
         "AGILE_SPRINTS",
-        "SOURCE_CODE_OWNERSHIP"
+        "SOURCE_CODE_OWNERSHIP",
+        "UI_UPDATES_LIMITED"
       ],
       "unbenefits": [
-        "PREMIUM_SUPPORT",
         "UNLIMITED_REVISIONS",
         "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
         "RAPID_PROTOTYPING"
       ]
     },
@@ -121,17 +115,17 @@
         "max": 8
       },
       "benefits": [
+        "PREMIUM_SUPPORT",
         "RAPID_PROTOTYPING",
         "AGILE_SPRINTS",
         "UI_UPDATES_LIMITED",
         "SOURCE_CODE_OWNERSHIP"
       ],
       "unbenefits": [
-        "PREMIUM_SUPPORT",
         "UNLIMITED_REVISIONS",
         "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
-        "RAPID_PROTOTYPING"
+        "SHORT_NOTICE_MEETINGS",
+        "PRIORITY_SUPPORT"
       ]
     },
     {
@@ -145,6 +139,7 @@
         "max": 8
       },
       "benefits": [
+        "PREMIUM_SUPPORT",
         "RAPID_PROTOTYPING",
         "AGILE_SPRINTS",
         "UI_UPDATES_LARGE",
@@ -152,11 +147,9 @@
         "SOURCE_CODE_OWNERSHIP"
       ],
       "unbenefits": [
-        "PREMIUM_SUPPORT",
-        "UNLIMITED_REVISIONS",
         "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
-        "RAPID_PROTOTYPING"
+        "SHORT_NOTICE_MEETINGS",
+        "PRIORITY_SUPPORT"
       ]
     },
     {
@@ -170,6 +163,7 @@
         "max": 8
       },
       "benefits": [
+        "PREMIUM_SUPPORT",
         "RAPID_PROTOTYPING",
         "AGILE_SPRINTS",
         "UI_UPDATES_LARGE",
@@ -178,11 +172,7 @@
         "SOURCE_CODE_OWNERSHIP"
       ],
       "unbenefits": [
-        "PREMIUM_SUPPORT",
-        "UNLIMITED_REVISIONS",
-        "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
-        "RAPID_PROTOTYPING"
+        "DETAILED_REPORTS"
       ]
     },
     {
@@ -196,6 +186,8 @@
         "max": 8
       },
       "benefits": [
+        "PREMIUM_SUPPORT",
+        "SAME_DAY_TURNAROUND",
         "RAPID_PROTOTYPING",
         "AGILE_SPRINTS",
         "UI_UPDATES_LARGE",
@@ -204,13 +196,7 @@
         "DETAILED_REPORTS",
         "SOURCE_CODE_OWNERSHIP"
       ],
-      "unbenefits": [
-        "PREMIUM_SUPPORT",
-        "UNLIMITED_REVISIONS",
-        "SAME_DAY_TURNAROUND",
-        "SOURCE_CODE_OWNERSHIP",
-        "RAPID_PROTOTYPING"
-      ]
+      "unbenefits": []
     }
   ]
 }

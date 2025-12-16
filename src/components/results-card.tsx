@@ -3,7 +3,7 @@
 import type { CalculationResult } from "@/app/page.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Info, Gift } from "lucide-react";
+import { CheckCircle2, CircleX,Info, Gift } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import { WhatsAppIcon } from "./icons/whatsapp-icon";
@@ -99,7 +99,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
               ))}
               {allBenefits.map((unbenefit, index) => (
                 <li key={index} className="flex items-start">
-                  <CheckCircle2 className="h-5 w-5 mr-3 mt-0.5 text-muted flex-shrink-0" />
+                  <CircleX className="h-5 w-5 mr-3 mt-0.5 text-muted flex-shrink-0" />
                   <div className="flex-grow">
                     <span className="font-medium text-foreground">
                       {unbenefit.text}
