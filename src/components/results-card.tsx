@@ -126,7 +126,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
 
         <Button onClick={handleShare} className="w-full text-lg py-6 gap-2" size="lg" variant="secondary">
           <WhatsAppIcon className="h-6 w-6" />
-          Discuss this Plan on WhatsApp
+          Discuss on WhatsApp
         </Button>
       </CardContent>
     </Card>
