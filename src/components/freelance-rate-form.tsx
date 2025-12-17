@@ -159,7 +159,14 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., JVC10 or AGNC50" {...field} className="pl-10" />
+                            <Input 
+                              placeholder="e.g., JVC10 or AGNC50" 
+                              {...field} 
+                              className="pl-10" 
+                              onChange={(e) => {
+                                field.onChange(e.target.value.toUpperCase());
+                              }}
+                            />
                         </div>
                     </FormControl>
                     <FormMessage />
