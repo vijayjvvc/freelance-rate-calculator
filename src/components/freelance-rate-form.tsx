@@ -159,7 +159,7 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., JV02 or JV02-4" {...field} className="pl-10" />
+                            <Input placeholder="e.g., HTX102" {...field} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />
