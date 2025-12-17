@@ -20,7 +20,7 @@ export type CalculationResult = {
   dailyHours?: number;
 };
 
-const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
+const refCodeRegex = /^(JV(?:02|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
 
 export default function Home() {
   const [result, setResult] = useState<CalculationResult | null>(null);

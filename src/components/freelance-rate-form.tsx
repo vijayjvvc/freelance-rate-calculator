@@ -27,7 +27,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Tier } from "@/lib/types";
 
-const refCodeRegex = /^(JV(?:02|X05|C10))(?:-([1-8]))?$/i;
+const refCodeRegex = /^(JV(?:02|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
 
 // We need a function to create the schema dynamically based on the tiers prop
 const createFormSchema = (tiers: Tier[]) => z.object({
@@ -159,7 +159,7 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., HTX102" {...field} className="pl-10" />
+                            <Input placeholder="e.g., JVC10 or AGNC50" {...field} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />

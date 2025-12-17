@@ -2,7 +2,8 @@
   "referralCodes": {
     "JV02": 2,
     "JVX05": 5,
-    "JVC10": 10
+    "JVC10": 10,
+    "AGNC50": 20
   },
   "allBenefits": {
     "PREMIUM_SUPPORT": {
