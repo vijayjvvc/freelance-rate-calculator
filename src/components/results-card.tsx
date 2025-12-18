@@ -16,11 +16,10 @@ interface ResultsCardProps {
 export function ResultsCard({ result }: ResultsCardProps) {
   const { tier, days, totalHours, totalCost, allBenefits, unbenefits, country, hourlyRate, discountApplied, dailyHours } = result;
 
-  const formattedCost = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: country.currency,
-    maximumFractionDigits: 0,
-  }).format(totalCost);
+    const formattedCost = `${country.currencySymbol}${new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 0,
+    }).format(totalCost)}`;
+
 
   const handleShare = () => {
     let message = `Hi! I'm interested in hiring you for a project.\n\nI've selected the '${tier.label}' plan for ${days} days from ${country.label}.`;
@@ -47,7 +46,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
           <Confetti />
         </div>
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-background to-foreground">
+          <CardTitle className="text-2xl sm:text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-background to-foreground">
             Your Estimated Plan
           </CardTitle>
           <CardDescription className="text-lg">
@@ -90,7 +89,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
                          <Info className="h-4 w-4 text-muted-foreground hover:text-accent" />
                        </button>
                     </TooltipTrigger>
-                    <TooltipContent side="top" className="max-w-xs">
+                    <TooltipContent side="top" align="center" className="max-w-xs">
                       <p>{benefit.description}</p>
                     </TooltipContent>
                   </Tooltip>
@@ -112,7 +111,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
                          <Info className="h-4 w-4 text-muted-foreground hover:text-accent" />
                        </button>
                     </TooltipTrigger>
-                    <TooltipContent side="top" className="max-w-xs">
+                    <TooltipContent side="top" align="center" className="max-w-xs">
                       <p>{unbenefit.description}</p>
                     </TooltipContent>
                   </Tooltip>

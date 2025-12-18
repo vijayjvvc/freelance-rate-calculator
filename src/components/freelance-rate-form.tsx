@@ -72,12 +72,17 @@ export function FreelanceRateForm({ tiers, countries, onCalculate, isCalculating
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      countryCode: "IN",
+      countryCode: "RU",
       tierId: undefined,
       days: 1,
       refId: "",
     },
   });
+
+  const handleRefIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase();
+    form.setValue("refId", value);
+  };
 
   const selectedTier = tiers.find((t) => t.id === selectedTierId);
   const refIdValue = form.watch("refId");
@@ -182,7 +187,7 @@ export function FreelanceRateForm({ tiers, countries, onCalculate, isCalculating
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., JVC10" {...field} className="pl-10" />
+                            <Input placeholder="e.g., JVC10" {...field} onChange={handleRefIdChange} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />
