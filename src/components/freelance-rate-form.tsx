@@ -27,7 +27,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Tier, Countries } from "@/lib/types";
 
-const refCodeRegex = /^(JV(?:02|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
+const refCodeRegex = /^(JV(?:02|X05|C10|00)|AGNC50)(?:-([1-8]))?$/i;
 
 const createFormSchema = (tiers: Tier[]) => z.object({
   countryCode: z.string({ required_error: "Please select a country." }),
@@ -188,7 +188,7 @@ export function FreelanceRateForm({ tiers, countries, onCalculate, isCalculating
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="e.g., JVC10" {...field} onChange={handleRefIdChange} className="pl-10" />
+                            <Input placeholder="e.g., HXC10" {...field} onChange={handleRefIdChange} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />
