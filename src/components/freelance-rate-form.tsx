@@ -25,12 +25,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Tier } from "@/lib/types";
+import type { Tier, Countries } from "@/lib/types";
 
 const refCodeRegex = /^(JV(?:02|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
 
-// We need a function to create the schema dynamically based on the tiers prop
 const createFormSchema = (tiers: Tier[]) => z.object({
+  countryCode: z.string({ required_error: "Please select a country." }),
   tierId: z.string({ required_error: "Please select a project duration." }),
   days: z.coerce.number().min(1, "Days must be at least 1."),
   refId: z.string().optional(),
@@ -38,8 +38,6 @@ const createFormSchema = (tiers: Tier[]) => z.object({
   (data) => {
     const tier = tiers.find((t) => t.id === data.tierId);
     if (!tier) return false;
-    // When a custom hour code is present, we only validate the range, not rounding.
-    // The rounding happens in the calculation logic.
     return data.days >= tier.minDays && data.days <= tier.maxDays;
   },
   {
@@ -61,19 +59,20 @@ export type FormData = z.infer<ReturnType<typeof createFormSchema>>;
 
 interface FreelanceRateFormProps {
   tiers: Tier[];
+  countries: Countries;
   onCalculate: (data: FormData) => void;
   isCalculating: boolean;
 }
 
-export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: FreelanceRateFormProps) {
+export function FreelanceRateForm({ tiers, countries, onCalculate, isCalculating }: FreelanceRateFormProps) {
   const [selectedTierId, setSelectedTierId] = useState<string | undefined>();
   
-  // Create the schema dynamically
   const formSchema = createFormSchema(tiers);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      countryCode: "IN",
       tierId: undefined,
       days: 1,
       refId: "",
@@ -105,7 +104,31 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onCalculate)} className="space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
+              <FormField
+                  control={form.control}
+                  name="countryCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Country</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a country..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.entries(countries).map(([code, country]) => (
+                            <SelectItem key={code} value={code}>
+                              {country.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               <FormField
                 control={form.control}
                 name="tierId"
@@ -141,8 +164,8 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
                     </FormControl>
                     {selectedTier && (
                       <FormDescription>
-                        Enter a value between {selectedTier.minDays} and {selectedTier.maxDays}.
-                        {hasCustomHours && " Days will be rounded to the nearest month (30 days)."}
+                        Enter between {selectedTier.minDays} and {selectedTier.maxDays}.
+                        {hasCustomHours && " Days will be rounded."}
                       </FormDescription>
                     )}
                     <FormMessage />
@@ -159,14 +182,7 @@ export function FreelanceRateForm({ tiers, onCalculate, isCalculating }: Freelan
                     <FormControl>
                         <div className="relative">
                             <TicketPercent className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input 
-                              placeholder="e.g., JVC10 or AGNC50" 
-                              {...field} 
-                              className="pl-10" 
-                              onChange={(e) => {
-                                field.onChange(e.target.value.toUpperCase());
-                              }}
-                            />
+                            <Input placeholder="e.g., JVC10" {...field} className="pl-10" />
                         </div>
                     </FormControl>
                     <FormMessage />

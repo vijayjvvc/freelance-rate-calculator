@@ -2,8 +2,57 @@
   "referralCodes": {
     "JV02": 2,
     "JVX05": 5,
-    "JVC10": 10,
-    "AGNC50": 20
+    "JVC10": 10
+  },
+  "countries": {
+    "IN": {
+      "label": "India",
+      "currency": "INR",
+      "currencySymbol": "₹",
+      "rates": [1500, 1200, 1160, 1130, 1100, 950]
+    },
+    "US": {
+      "label": "USA",
+      "currency": "USD",
+      "currencySymbol": "$",
+      "rates": [50, 45, 42, 40, 38, 35]
+    },
+    "CA": {
+      "label": "Canada",
+      "currency": "CAD",
+      "currencySymbol": "C$",
+      "rates": [65, 60, 55, 52, 50, 45]
+    },
+    "RU": {
+      "label": "Russia",
+      "currency": "RUB",
+      "currencySymbol": "₽",
+      "rates": [4500, 4000, 3700, 3500, 3300, 3000]
+    },
+    "NL": {
+      "label": "Netherlands",
+      "currency": "EUR",
+      "currencySymbol": "€",
+      "rates": [45, 40, 38, 36, 34, 30]
+    },
+    "JP": {
+      "label": "Japan",
+      "currency": "JPY",
+      "currencySymbol": "¥",
+      "rates": [6500, 6000, 5700, 5500, 5300, 5000]
+    },
+    "AU": {
+      "label": "Australia",
+      "currency": "AUD",
+      "currencySymbol": "A$",
+      "rates": [75, 70, 65, 62, 60, 55]
+    },
+    "OTHER": {
+      "label": "Other Foreign",
+      "currency": "USD",
+      "currencySymbol": "$",
+      "rates": [50, 45, 42, 40, 38, 35]
+    }
   },
   "allBenefits": {
     "PREMIUM_SUPPORT": {
@@ -68,7 +117,6 @@
       "label": "Under 1 Week",
       "minDays": 1,
       "maxDays": 6,
-      "hourlyRate": 1500,
       "dailyHours": {
         "min": 5,
         "max": 8
@@ -88,7 +136,6 @@
       "label": "1 to 2 Weeks",
       "minDays": 7,
       "maxDays": 14,
-      "hourlyRate": 1200,
       "dailyHours": {
         "min": 5,
         "max": 8
@@ -110,7 +157,6 @@
       "label": "2 Weeks to 1 Month",
       "minDays": 15,
       "maxDays": 30,
-      "hourlyRate": 1160,
       "dailyHours": {
         "min": 6,
         "max": 8
@@ -134,7 +180,6 @@
       "label": "1 to 4 Months",
       "minDays": 31,
       "maxDays": 120,
-      "hourlyRate": 1130,
       "dailyHours": {
         "min": 6,
         "max": 8
@@ -158,7 +203,6 @@
       "label": "4 to 6 Months",
       "minDays": 121,
       "maxDays": 180,
-      "hourlyRate": 1100,
       "dailyHours": {
         "min": 6,
         "max": 8
@@ -181,7 +225,6 @@
       "label": "6 to 12 Months",
       "minDays": 181,
       "maxDays": 365,
-      "hourlyRate": 950,
       "dailyHours": {
         "min": 6,
         "max": 8

@@ -5,8 +5,7 @@ import { Sparkles } from "lucide-react";
 import { FreelanceRateForm, type FormData } from "@/components/freelance-rate-form";
 import { ResultsCard } from "@/components/results-card";
 import config from "@/lib/freelance-config.json";
-import type { Tier, Benefit, ReferralCodes } from "@/lib/types";
-import { useToast } from "@/hooks/use-toast";
+import type { Tier, Benefit, ReferralCodes, Countries, Country } from "@/lib/types";
 
 export type CalculationResult = {
   tier: Tier;
@@ -15,6 +14,8 @@ export type CalculationResult = {
   totalCost: number;
   allBenefits: Benefit[];
   unbenefits: Benefit[];
+  country: Country;
+  hourlyRate: number;
   refId?: string;
   discountApplied?: number;
   dailyHours?: number;
@@ -26,13 +27,13 @@ export default function Home() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
 
   // In a real library, this data would be fetched from your API
-  const { tiers, allBenefits, referralCodes } = config as {
+  const { tiers, allBenefits, referralCodes, countries } = config as {
     tiers: Tier[];
     allBenefits: { [key: string]: Omit<Benefit, 'included'> };
     referralCodes: ReferralCodes;
+    countries: Countries;
   };
 
   const getTierBenefits = (tier: Tier): Benefit[] => {
@@ -61,13 +62,15 @@ export default function Home() {
     setIsCalculating(true);
     setResult(null); // Clear previous result
     const selectedTier = tiers.find((t) => t.id === data.tierId);
-    if (!selectedTier) return;
+    const selectedCountry = countries[data.countryCode];
+    if (!selectedTier || !selectedCountry) return;
 
-    let hourlyRate = selectedTier.hourlyRate;
+    const tierIndex = tiers.findIndex(t => t.id === selectedTier.id);
+    let hourlyRate = selectedCountry.rates[tierIndex];
+
     let discountApplied: number | undefined = undefined;
     let dailyCustomHours: number | undefined = undefined;
     let finalDays = data.days;
-    let isRefCodeValid = true;
 
     if (data.refId) {
       const match = data.refId.match(refCodeRegex);
@@ -87,19 +90,7 @@ export default function Home() {
           if (roundedDays === 0) roundedDays = 30;
           finalDays = Math.max(selectedTier.minDays, Math.min(roundedDays, selectedTier.maxDays));
         }
-      } else {
-        isRefCodeValid = false;
       }
-    }
-
-    if (!isRefCodeValid) {
-        toast({
-            title: "Invalid Referral Code",
-            description: "The referral code you entered is not valid. Please check and try again.",
-            variant: "destructive",
-        });
-        setIsCalculating(false);
-        return;
     }
 
     const dailyHours = dailyCustomHours || (selectedTier.dailyHours.min + selectedTier.dailyHours.max) / 2;
@@ -115,6 +106,8 @@ export default function Home() {
         totalCost,
         allBenefits: getTierBenefits(selectedTier),
         unbenefits: getTierUnbenefits(selectedTier),
+        country: selectedCountry,
+        hourlyRate: selectedCountry.rates[tierIndex],
         refId: data.refId,
         discountApplied,
         dailyHours: dailyCustomHours,
@@ -147,6 +140,7 @@ export default function Home() {
       <div className="mt-12">
         <FreelanceRateForm 
           tiers={tiers}
+          countries={countries}
           onCalculate={handleCalculate} 
           isCalculating={isCalculating} 
         />

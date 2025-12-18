@@ -10,7 +10,6 @@ export type Tier = {
   label: string;
   minDays: number;
   maxDays: number;
-  hourlyRate: number; // in INR
   dailyHours: {
     min: number;
     max: number;
@@ -22,3 +21,14 @@ export type Tier = {
 export type ReferralCodes = {
   [key: string]: number;
 };
+
+export type Country = {
+  label: string;
+  currency: string;
+  currencySymbol: string;
+  rates: number[];
+}
+
+export type Countries = {
+  [key: string]: Country;
+}

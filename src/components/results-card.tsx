@@ -14,16 +14,16 @@ interface ResultsCardProps {
 }
 
 export function ResultsCard({ result }: ResultsCardProps) {
-  const { tier, days, totalHours, totalCost, allBenefits, unbenefits, discountApplied, dailyHours } = result;
+  const { tier, days, totalHours, totalCost, allBenefits, unbenefits, country, hourlyRate, discountApplied, dailyHours } = result;
 
-  const formattedCost = new Intl.NumberFormat('en-IN', {
+  const formattedCost = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'INR',
+    currency: country.currency,
     maximumFractionDigits: 0,
   }).format(totalCost);
 
   const handleShare = () => {
-    let message = `Hi! I'm interested in hiring you for a project.\n\nI've selected the '${tier.label}' plan for ${days} days.`;
+    let message = `Hi! I'm interested in hiring you for a project.\n\nI've selected the '${tier.label}' plan for ${days} days from ${country.label}.`;
     
     if (dailyHours) {
         message += `\nThis includes a custom commitment of ${dailyHours} hours/day.`
@@ -65,7 +65,7 @@ export function ResultsCard({ result }: ResultsCardProps) {
             <p className="text-muted-foreground text-sm">Estimated Total Cost</p>
             <p className="text-5xl font-bold text-primary my-2">{formattedCost}</p>
             <p className="text-muted-foreground">
-              {dailyHours ? 'Total' : 'Approx.'} {totalHours.toLocaleString()} hours @ ₹{tier.hourlyRate.toFixed(2)}/hr
+              {dailyHours ? 'Total' : 'Approx.'} {totalHours.toLocaleString()} hours @ {country.currencySymbol}{hourlyRate.toFixed(2)}/hr
               {dailyHours && ` (${dailyHours} hrs/day)`}
             </p>
           </div>
