@@ -21,7 +21,7 @@ export type CalculationResult = {
   dailyHours?: number;
 };
 
-const refCodeRegex = /^(JV(?:02|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
+const refCodeRegex = /^(JV(?:02|00|X05|C10)|AGNC50)(?:-([1-8]))?$/i;
 
 export default function Home() {
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -78,7 +78,7 @@ export default function Home() {
         const codePart = match[1].toUpperCase() as keyof ReferralCodes;
         const hoursPart = match[2];
 
-        if (referralCodes[codePart]) {
+        if (codePart in referralCodes) {
           const discount = referralCodes[codePart];
           discountApplied = discount;
           hourlyRate = hourlyRate * (1 - discount / 100);
