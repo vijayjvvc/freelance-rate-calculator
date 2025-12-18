@@ -77,11 +77,12 @@ export function FreelanceRateForm({ tiers, countries, onCalculate, isCalculating
       days: 1,
       refId: "",
     },
+    mode: 'onChange', // Enable live validation
   });
 
   const handleRefIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase();
-    form.setValue("refId", value);
+    form.setValue("refId", value, { shouldValidate: true });
   };
 
   const selectedTier = tiers.find((t) => t.id === selectedTierId);
